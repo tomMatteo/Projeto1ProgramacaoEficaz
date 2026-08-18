@@ -1,5 +1,4 @@
 import json
-import 
 def load_data (data):
     with open(f'static/data/{data}', 'r', encoding='utf-8') as arquivo:
         retorno = json.load(arquivo)
