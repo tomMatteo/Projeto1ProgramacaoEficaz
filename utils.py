@@ -1,13 +1,13 @@
 import json
 import sqlite3
 # def load_data (data):
-    # with open(f'static/data/{data}', 'r', encoding='utf-8') as arquivo:
-        # retorno = json.load(arquivo)
-    # return retorno
+#     with open(f'static/data/{data}', 'r', encoding='utf-8') as arquivo:
+#         retorno = json.load(arquivo)
+#     return retorno
 def load_data ():
     conn = sqlite3.connect('banco.db')
     curs = conn.cursor()
-    curs.execute("SELECT title,content FROM note ORDER BY favorite")
+    curs.execute("SELECT rowid,title,content FROM note ORDER BY favorite")
     retorno = curs.fetchall()
     conn.close()
     return retorno
@@ -26,24 +26,29 @@ def save_data (data):
     curs = conn.cursor()
     curs.execute(''' INSERT INTO note(title,content, favorite)
             VALUES(?,?,?) ''', (data['titulo'], data['detalhes'], 0))
-    curs.execute(''' DELETE from note WHERE favorite is NULL ''')
+    conn.commit()
+    conn.close()
+def remove_data (data):
+    conn = sqlite3.connect('banco.db')
+    curs = conn.cursor()
+    curs.execute(''' DELETE FROM note WHERE rowid = ?''', (data,))
     conn.commit()
     conn.close()
 # def turn_to_sql ():
-    # dados = load_data('notes.json')
-    # conn = sqlite3.connect('banco.db')
-    # curs = conn.cursor()
-    # curs.execute('''CREATE TABLE note(
-    #   id ROWID, 
-    #   title varchar(255), 
-    #   content varchar(255),
-    #   favorite integer
-    # );
-    # ''')
-    # for dado in dados:
-        # title = dado['titulo']
-        # content = dado['detalhes']
-        # curs.execute(''' INSERT INTO note(title,content, favorite)
-            #   VALUES(?,?,?) ''', (title, content, 0))
-    # conn.commit()
-    # conn.close()
+#     dados = load_data('notes.json')
+#     conn = sqlite3.connect('banco.db')
+#     curs = conn.cursor()
+#     curs.execute('''CREATE TABLE note(
+#       title varchar(255), 
+#       content varchar(255),
+#       favorite integer
+#     );
+#     ''')
+#     for dado in dados:
+#         title = dado['titulo']
+#         content = dado['detalhes']
+#         curs.execute(''' INSERT INTO note(title,content, favorite)
+#               VALUES(?,?,?) ''', (title, content, 0))
+#     conn.commit()
+#     conn.close()
+# turn_to_sql()
