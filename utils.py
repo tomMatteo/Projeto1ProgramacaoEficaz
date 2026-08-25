@@ -7,7 +7,7 @@ import sqlite3
 def load_data ():
     conn = sqlite3.connect('banco.db')
     curs = conn.cursor()
-    curs.execute("SELECT rowid,title,content FROM note ORDER BY favorite")
+    curs.execute("SELECT title,content,rowid FROM note ORDER BY favorite")
     retorno = curs.fetchall()
     conn.close()
     return retorno

@@ -14,15 +14,22 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit_form():
-    titulo = request.form.get('titulo')  # Obtém o valor do campo 'titulo'
-    detalhes = request.form.get('detalhes')  # Obtém o valor do campo 'detalhes'
+    titulo = request.form.get('titulo')  
+    detalhes = request.form.get('detalhes')  
 
     views.submit(titulo, detalhes)
     return redirect('/')
 
-@app.route('/delete/<NOTA_ID>', methods=['GET'])
+@app.route('/delete/<NOTA_ID>', methods=['POST'])
 def delete(NOTA_ID):
     views.delete(NOTA_ID)
+    return redirect('/')
+
+@app.route('/update/<NOTA_ID>', methods=['PUT'])
+def update(NOTA_ID):
+    titulo = request.form.get('titulo')  
+    detalhes = request.form.get('detalhes')
+    views.update(NOTA_ID)
     return redirect('/')
 
 if __name__ == '__main__':
