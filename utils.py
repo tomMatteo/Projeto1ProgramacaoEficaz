@@ -34,6 +34,19 @@ def remove_data (data):
     curs.execute(''' DELETE FROM note WHERE rowid = ?''', (data,))
     conn.commit()
     conn.close()
+def load_one(data):
+    conn = sqlite3.connect('banco.db')
+    curs = conn.cursor()
+    curs.execute(''' SELECT title,content,rowid FROM note WHERE rowid = ?''', (data,))
+    retorno = curs.fetchone()
+    conn.close()
+    return retorno
+def update_data (data):
+    conn = sqlite3.connect('banco.db')
+    curs = conn.cursor()
+    curs.execute(''' UPDATE note set title = ?, content = ? WHERE rowid=?''', (data['titulo'], data['detalhes'], data['id']))
+    conn.commit()
+    conn.close()
 # def turn_to_sql ():
 #     dados = load_data('notes.json')
 #     conn = sqlite3.connect('banco.db')
