@@ -30,11 +30,16 @@ def view_note(NOTA_ID):
     return render_template_string(views.note_edit(NOTA_ID))
 
 @app.route('/update', methods=['POST'])
-def saveup():
+def save_up():
     NOTA_ID = request.form.get('NOTA_ID')   
     titulo = request.form.get('titulo')  
     detalhes = request.form.get('detalhes')
     views.save_update(NOTA_ID, titulo, detalhes)
     return redirect('/')
+
+@app.route('/canceledit', methods=['POST'])
+def edit_cancel():
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(debug=True)
